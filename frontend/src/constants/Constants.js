@@ -1,0 +1,14 @@
+export const HELLO_WORLD = "test purpose string";
+export const API_URL = process.env.REACT_APP_API_URL;
+export const API_MARKET_NEWS = "/news";
+export const API_POPULAR_STOCK = "/stock/popular";
+export const API_SEARCH_STOCK = "/stock/search";
+export const API_STOCK_CANDLE = "/stock/candle";
+export const API_BUY_STOCK = "/stock/buy";
+export const API_SELL_STOCK = "/stock/sell";
+export const API_USER_CHECK = "/user/check";
+export const API_COMP_DATA = "/competition/data";
+export const API_VALUE_STOCK = "/stock/value";
+export const API_INVESTED_STOCK = "/stock/invested";
+export const API_DASHBOARD_GRAPH = "/stock/graph";
+export const API_USER_PAST_COMP_DATA = "/past/competition/data";
