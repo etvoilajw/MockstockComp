@@ -15,6 +15,9 @@ export const Provider = (props) => {
   const [userBalance, setUserBalance] = useState(0);
   const [userInventory, setUserInventory] = useState({});
 
+  const [isGuest, setIsGuest] = useState(false);
+  const [guestToken, setGuestToken] = useState("");
+
   // Idea to get user information.
   useEffect(() => {
     const abortController = new AbortController();
@@ -54,6 +57,10 @@ export const Provider = (props) => {
     setUserBalance,
     userInventory,
     setUserInventory,
+    isGuest,
+    setIsGuest,
+    guestToken,
+    setGuestToken,
   };
 
   // pass the value in provider and return
