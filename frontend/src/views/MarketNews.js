@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useContext } from "react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -7,12 +7,14 @@ import moment from "moment";
 
 import * as CONSTANTS from "constants/Constants";
 import { LoadingSpinner } from "components";
+import { GlobalContext } from "../../context";
 
 const MarketNews = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const [isLoading, setIsLoading] = useState(false);
   const [marketNews, setMarketNews] = useState([]);
+  const context = useContext(GlobalContext);
 
   // Load market news
   useEffect(() => {
