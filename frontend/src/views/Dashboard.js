@@ -35,7 +35,9 @@ const Dashboard = () => {
 
     const getDashboard = async () => {
       if (userId) {
-        const token = await getAccessTokenSilently();
+        const token = context.isGuest
+          ? context.guestToken
+          : await getAccessTokenSilently();
         //setDashboardHasError(false);
         await fetch(CONSTANTS.API_URL + CONSTANTS.API_VALUE_STOCK, {
           method: "POST",
@@ -66,7 +68,9 @@ const Dashboard = () => {
     // get some top companies information
     const getInvestedCompanies = async () => {
       if (userId) {
-        const token = await getAccessTokenSilently();
+        const token = context.isGuest
+          ? context.guestToken
+          : await getAccessTokenSilently();
         setDashboardHasError(false);
         await fetch(CONSTANTS.API_URL + CONSTANTS.API_INVESTED_STOCK, {
           method: "POST",

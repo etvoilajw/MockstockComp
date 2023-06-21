@@ -16,7 +16,9 @@ const PastCompetitions = (user) => {
     const signal = abortController.signal;
 
     const getPastCompetitionData = async () => {
-      const token = await getAccessTokenSilently();
+      const token = context.isGuest
+        ? context.guestToken
+        : await getAccessTokenSilently();
       setIsLoading(true);
 
       await fetch(

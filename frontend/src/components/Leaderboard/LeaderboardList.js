@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -9,6 +9,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import * as CONSTANTS from "../../constants/Constants";
 import { LoadingSpinner } from "../../components";
+
+import { GlobalContext } from "../../context";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,13 +50,16 @@ const LeaderboardList = () => {
   const [value, setValue] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [competitionResult, setCompetitionResult] = useState({});
+  const context = useContext(GlobalContext);
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
     const getCompetitionData = async () => {
-      const token = await getAccessTokenSilently();
+      const token = context.isGuest
+        ? context.guestToken
+        : await getAccessTokenSilently();
       setIsLoading(true);
 
       await fetch(CONSTANTS.API_URL + CONSTANTS.API_COMP_DATA, {

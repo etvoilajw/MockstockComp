@@ -60,7 +60,9 @@ const CustomCard = ({
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    const token = await getAccessTokenSilently();
+    const token = context.isGuest
+      ? context.guestToken
+      : await getAccessTokenSilently();
     setIsLoading(true);
 
     await fetch(
@@ -105,7 +107,9 @@ const CustomCard = ({
       return alert("Not enough balance!");
     }
 
-    const token = await getAccessTokenSilently();
+    const token = context.isGuest
+      ? context.guestToken
+      : await getAccessTokenSilently();
     setIsLoading(true);
     await fetch(CONSTANTS.API_URL + CONSTANTS.API_BUY_STOCK, {
       method: "POST",
@@ -160,7 +164,9 @@ const CustomCard = ({
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    const token = await getAccessTokenSilently();
+    const token = context.isGuest
+      ? context.guestToken
+      : await getAccessTokenSilently();
     setIsLoading(true);
     await fetch(CONSTANTS.API_URL + CONSTANTS.API_SELL_STOCK, {
       method: "POST",

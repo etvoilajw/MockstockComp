@@ -21,7 +21,9 @@ const MarketNews = () => {
 
     // get some latest market news
     const getMarketNews = async () => {
-      const token = await getAccessTokenSilently();
+      const token = context.isGuest
+        ? context.guestToken
+        : await getAccessTokenSilently();
       setIsLoading(true);
       await fetch(CONSTANTS.API_URL + CONSTANTS.API_MARKET_NEWS, {
         headers: {

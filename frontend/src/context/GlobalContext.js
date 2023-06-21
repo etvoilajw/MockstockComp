@@ -23,10 +23,9 @@ export const Provider = (props) => {
     const abortController = new AbortController();
     const signal = abortController.signal;
     // To get user data, we need to check that it is authenticated first
-    if (isAuthenticated) {
+    if (isAuthenticated || isGuest) {
       const callGetUserData = async () => {
-        const token = await getAccessTokenSilently();
-        console.log(token);
+        const token = isGuest ? guestToken : await getAccessTokenSilently();
         await fetch(CONSTANTS.API_URL + CONSTANTS.API_USER_CHECK, {
           method: "POST",
           headers: {
@@ -47,7 +46,7 @@ export const Provider = (props) => {
       };
       callGetUserData();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isGuest]);
 
   // Create a context object
   const globalContext = {
