@@ -30,7 +30,9 @@ const StockBrowser = () => {
 
     // get some top companies information
     const getTopCompanies = async () => {
-      const token = await getAccessTokenSilently();
+      const token = context.isGuest
+        ? context.guestToken
+        : await getAccessTokenSilently();
       setIsPopularLoading(true);
       setPopularHasError(false);
       await fetch(CONSTANTS.API_URL + CONSTANTS.API_POPULAR_STOCK, {
@@ -59,7 +61,9 @@ const StockBrowser = () => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    const token = await getAccessTokenSilently();
+    const token = context.isGuest
+      ? context.guestToken
+      : await getAccessTokenSilently();
     setIsSearchLoading(true);
     setSearchHasError(false);
     await fetch(CONSTANTS.API_URL + CONSTANTS.API_SEARCH_STOCK, {
