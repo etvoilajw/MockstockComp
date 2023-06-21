@@ -7,7 +7,7 @@ import moment from "moment";
 
 import * as CONSTANTS from "constants/Constants";
 import { LoadingSpinner } from "components";
-import { GlobalContext } from "../../context";
+import { GlobalContext } from "../context";
 
 const MarketNews = () => {
   const { getAccessTokenSilently } = useAuth0();
