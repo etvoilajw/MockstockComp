@@ -96,6 +96,10 @@ def check_user():
         .order_by(UserInventory.competition_id)
         .all()
     )
+
+    current_competition_id = (
+        UserInventory.query.order_by(UserInventory.competition_id.desc()).first().competition_id
+    )
     user_inventory = defaultdict(defaultdict)
     for row in user_inventory_list:
         user_inventory[row.competition_id][row.symbol] = row.shares
@@ -104,6 +108,7 @@ def check_user():
             "userId": user.user_id,
             "balance": user.balance,
             "userInventory": user_inventory,
+            "currentCompetitionId": current_competition_id
         }
     )
 
