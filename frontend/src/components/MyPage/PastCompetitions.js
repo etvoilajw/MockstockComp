@@ -5,7 +5,7 @@ import * as CONSTANTS from "constants/Constants";
 import { GlobalContext } from "context";
 import { LoadingSpinner } from "components";
 
-const PastCompetitions = (user) => {
+const PastCompetitions = () => {
   const context = useContext(GlobalContext);
   const { getAccessTokenSilently } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
