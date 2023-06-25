@@ -95,7 +95,7 @@ const Dashboard = () => {
   }, [userId]);
 
   useEffect(() => {
-    setUserBalance(context.userBalance.toFixed(2));
+    setUserBalance((+context.userBalance).toFixed(2));
   }, [context.userBalance]);
 
   return (
@@ -112,7 +112,7 @@ const Dashboard = () => {
           </div>
 
           <div>
-            <h2>Your Current Balance: ${userBalance}</h2>
+            <h2>Your Current Cash Balance: ${userBalance}</h2>
             <h2>Your Total Share Value: ${shareValue}</h2>
             <h2>Your Total Combined Value: ${+userBalance + +shareValue}</h2>
           </div>
@@ -129,7 +129,6 @@ const Dashboard = () => {
             ) : (
               ""
             )}
-            {/* <p>{userShares.length !== 0 ? "First company:" : ""}</p> */}
           </div>
         </Fragment>
       )}

@@ -127,7 +127,7 @@ const CustomCard = ({
       .then(async (response) => {
         if (!response.ok) throw new Error(response.status);
         const transactionResponse = await response.json();
-        context.setUserBalance(transactionResponse["balance"].toFixed(2));
+        context.setUserBalance((+transactionResponse["balance"]).toFixed(2));
         setShareHoldings(transactionResponse["userInventory"]);
         let userInventoryCopy = { ...context.userInventory };
         // case of userInventory being empty
@@ -139,7 +139,8 @@ const CustomCard = ({
         }
         // userInventory already exists
         else {
-          userInventoryCopy[1][symbol] = transactionResponse["userInventory"];
+          userInventoryCopy[context.currentCompetitionId][symbol] =
+            transactionResponse["userInventory"];
         }
         context.setUserInventory(userInventoryCopy);
         setTransactionMessage("purchase successful!");
@@ -184,10 +185,11 @@ const CustomCard = ({
       .then(async (response) => {
         if (!response.ok) throw new Error(response.status);
         const transactionResponse = await response.json();
-        context.setUserBalance(transactionResponse["balance"].toFixed(2));
+        context.setUserBalance((+transactionResponse["balance"]).toFixed(2));
         setShareHoldings(transactionResponse["userInventory"]);
         let userInventoryCopy = { ...context.userInventory };
-        userInventoryCopy[1][symbol] = transactionResponse["userInventory"];
+        userInventoryCopy[context.currentCompetitionId][symbol] =
+          transactionResponse["userInventory"];
         context.setUserInventory(userInventoryCopy);
         setTransactionMessage("sell successful!");
         setIsLoading(false);
@@ -199,7 +201,9 @@ const CustomCard = ({
         } else if (error.message === "401") {
           setTransactionMessage("You don't have enough shares!");
         } else if (error.message === "402") {
-          setTransactionMessage("Share needs to be greater than 0");
+          setTransactionMessage(
+            "Share needs to be getUserInventorygreater than 0"
+          );
         } else if (error.message === "403") {
           setTransactionMessage("Missing input");
         } else {

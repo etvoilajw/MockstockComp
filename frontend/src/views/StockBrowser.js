@@ -109,7 +109,8 @@ const StockBrowser = () => {
 
   const getUserInventory = (symbol) => {
     try {
-      const shareHoldings = context.userInventory[1][symbol];
+      const shareHoldings =
+        context.userInventory[context.currentCompetitionId][symbol];
       if (!shareHoldings) {
         return 0;
       }

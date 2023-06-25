@@ -14,6 +14,7 @@ export const Provider = (props) => {
   const [userId, setUserId] = useState("");
   const [userBalance, setUserBalance] = useState(0);
   const [userInventory, setUserInventory] = useState({});
+  const [currentCompetitionId, setCurrentCompetitionId] = useState(0);
 
   const [isGuest, setIsGuest] = useState(false);
   const [guestToken, setGuestToken] = useState("");
@@ -31,7 +32,10 @@ export const Provider = (props) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ name: user.name, email: user.email }),
+          body: JSON.stringify({
+            name: user ? user.name : "myportfoliodummyemail@gmail.com",
+            email: user ? user.email : "myportfoliodummyemail@gmail.com",
+          }),
           signal: signal,
         })
           .then(async (response) => {
@@ -39,6 +43,7 @@ export const Provider = (props) => {
             setUserId(userResponse["userId"]);
             setUserBalance(userResponse["balance"]);
             setUserInventory(userResponse["userInventory"]);
+            setCurrentCompetitionId(userResponse["currentCompetitionId"]);
           })
           .catch((error) => {
             console.log(error);
@@ -60,6 +65,8 @@ export const Provider = (props) => {
     setIsGuest,
     guestToken,
     setGuestToken,
+    currentCompetitionId,
+    setCurrentCompetitionId,
   };
 
   // pass the value in provider and return
