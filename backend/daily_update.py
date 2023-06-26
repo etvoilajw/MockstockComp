@@ -73,9 +73,10 @@ for user in users:
                 .price
             )
             balance += stock_price * stock.shares
+        total_balance = user.balance + balance
         db.session.add(
             UserDailyBalance(user_id=user.user_id, date=TODAY,
-                             cash_balance=user.balance, stock_balance=balance)
+                             cash_balance=user.balance, stock_balance=balance, total_balance=total_balance)
         )
 
 # Update user_competition rankings
@@ -85,18 +86,17 @@ UserCompetition.query.filter_by(competition_id=COMPETITION_ID).delete()
 db.session.commit()
 
 # Fetching all users' today balances
-user_balances = UserDailyBalance.query.filter(
-    UserDailyBalance.date == TODAY).all()
-
+user_balances = UserDailyBalance.query.filter_by(
+    date=TODAY).order_by(UserDailyBalance.total_balance.desc()).all()
+print(user_balances)
 # Re-adding today's competition rankings
-for index, user_balance in enumerate(user_balances):
-    total = user_balance.cash_balance + user_balance.stock_balance
+for index, user_balance in enumerate(user_balances, start=1):
     db.session.add(
         UserCompetition(
             user_id=user_balance.user_id,
             competition_id=COMPETITION_ID,
-            total_value=total,
-            rank=index + 1,
+            total_value=user_balance.total_balance,
+            rank=index,
         )
     )
 
