@@ -87,3 +87,4 @@ class UserDailyBalance(db.Model):
     date = db.Column(db.Date)
     cash_balance = db.Column(db.Integer)
     stock_balance = db.Column(db.Integer)
+    total_balance = db.Column(db.Integer)
