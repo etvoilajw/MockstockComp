@@ -133,8 +133,8 @@ const CustomCard = ({
         // case of userInventory being empty
         // competition id temporarily set as 1
         if (Object.keys(userInventoryCopy).length === 0) {
-          userInventoryCopy = {
-            1: { symbol: transactionResponse["userInventory"] },
+          userInventoryCopy[context.currentCompetitionId] = {
+            symbol: transactionResponse["userInventory"],
           };
         }
         // userInventory already exists
@@ -213,6 +213,10 @@ const CustomCard = ({
       });
   };
 
+  const selectAllButtonHandler = () => {
+    setNumShares(context.userInventory[context.currentCompetitionId][symbol]);
+  };
+
   return (
     <Fragment>
       <Card variant="outlined">
@@ -284,9 +288,10 @@ const CustomCard = ({
               )}
             </div>
             <p id="transition-modal-description">Current price: ${curPrice}</p>
-            <p>Your cash balance: ${context.userBalance}</p>
-            <p>Currently you have {shareHoldings} shares</p>
+            <p>Your cash balance: ${(+context.userBalance).toFixed(2)}</p>
+            <p>Currently you have {(+shareHoldings).toFixed(2)} shares</p>
             <div className={classes.btndiv}>
+              <button onClick={selectAllButtonHandler}>All</button>
               <input
                 type="number"
                 step="any"
