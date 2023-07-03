@@ -12,3 +12,4 @@ export const API_VALUE_STOCK = "/stock/value";
 export const API_INVESTED_STOCK = "/stock/invested";
 export const API_DASHBOARD_GRAPH = "/stock/graph";
 export const API_USER_PAST_COMP_DATA = "/past/competition/data";
+export const API_USER_LOGOUT = "/user/logout";

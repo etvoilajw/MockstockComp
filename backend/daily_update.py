@@ -88,7 +88,6 @@ db.session.commit()
 # Fetching all users' today balances
 user_balances = UserDailyBalance.query.filter_by(
     date=TODAY).order_by(UserDailyBalance.total_balance.desc()).all()
-print(user_balances)
 # Re-adding today's competition rankings
 for index, user_balance in enumerate(user_balances, start=1):
     db.session.add(
@@ -99,5 +98,7 @@ for index, user_balance in enumerate(user_balances, start=1):
             rank=index,
         )
     )
+
+
 
 db.session.commit()

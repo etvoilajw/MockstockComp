@@ -5,10 +5,13 @@ import { NavLink } from "react-router-dom";
 import { MenuItems } from "./MenuItems";
 import { PersonalItems } from "./PersonalItems";
 
+import * as CONSTANTS from "../../constants/Constants";
+
 import { GlobalContext } from "../../context";
 
 export default function Navbar() {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, loginWithRedirect, logout } =
+    useAuth0();
 
   const context = useContext(GlobalContext);
 
@@ -37,6 +40,32 @@ export default function Navbar() {
       });
   };
 
+  const logoutHandler = async () => {
+    const token = context.isGuest
+      ? context.guestToken
+      : await getAccessTokenSilently();
+    await fetch(
+      CONSTANTS.API_URL +
+        CONSTANTS.API_USER_LOGOUT +
+        `?user_id=${context.userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then(async (response) => {
+        const logoutResponse = await response.json();
+        console.log(logoutResponse["message"]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    logout({ returnTo: window.location.origin });
+  };
+
   return (
     <nav>
       <div className="nav--container">
@@ -58,10 +87,7 @@ export default function Navbar() {
                 );
               })}
             </ul>
-            <button
-              className="nav--button"
-              onClick={() => logout({ returnTo: window.location.origin })}
-            >
+            <button className="nav--button" onClick={() => logoutHandler()}>
               LOG OUT
             </button>
           </div>

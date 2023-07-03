@@ -54,6 +54,11 @@ SYMBOLS = COMPANY_DATA["displaySymbol"].to_numpy(dtype="str")
 
 TIME_CONVERTER = 60 * 60 * 24 * 30
 
+CURRENT_COMPETITION_ID = (
+    Competition.query.order_by(
+        Competition.competition_id.desc()).first().competition_id
+)
+
 
 def format_company_price(company, quote, symbol=None):
     return {
@@ -88,6 +93,7 @@ def check_user():
                 "userId": new_user1.user_id,
                 "balance": new_user1.balance,
                 "userInventory": user_inventory,
+                "currentCompetitionId": CURRENT_COMPETITION_ID
             }
         )
     # Format UserInventory to dictionary => {competition: {symbol: shares}}
@@ -97,9 +103,6 @@ def check_user():
         .all()
     )
 
-    current_competition_id = (
-        UserInventory.query.order_by(UserInventory.competition_id.desc()).first().competition_id
-    )
     user_inventory = defaultdict(defaultdict)
     for row in user_inventory_list:
         user_inventory[row.competition_id][row.symbol] = row.shares
@@ -108,7 +111,7 @@ def check_user():
             "userId": user.user_id,
             "balance": user.balance,
             "userInventory": user_inventory,
-            "currentCompetitionId": current_competition_id
+            "currentCompetitionId": CURRENT_COMPETITION_ID
         }
     )
 
@@ -441,3 +444,21 @@ def get_user_past_competition_data():
         }
 
     return flask.jsonify({"pastCompetitionData": past_competition_data})
+
+
+@app.route("/user/logout", methods=["GET"])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def user_logout():
+    user_id = flask.request.args.get("user_id")
+
+    # Delete all transaction for Guest and reset balance to 1000 when log out
+
+    Transaction.query.filter_by(user_id=user_id).delete()
+    UserInventory.query.filter_by(user_id=user_id).delete()
+    user = User.query.filter_by(user_id=user_id).first()
+    user.balance = 1000
+
+    db.session.commit()
+
+    return flask.jsonify({"message": "Logged out!"})
