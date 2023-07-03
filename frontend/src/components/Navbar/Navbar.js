@@ -87,7 +87,10 @@ export default function Navbar() {
                 );
               })}
             </ul>
-            <button className="nav--button" onClick={() => logoutHandler()}>
+            <button
+              className="nav--button"
+              onClick={context.isGuest ? () => logoutHandler() : () => logout()}
+            >
               LOG OUT
             </button>
           </div>
