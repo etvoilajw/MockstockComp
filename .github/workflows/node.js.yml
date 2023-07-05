@@ -38,5 +38,5 @@ jobs:
           REACT_APP_DUMMY_EMAIL: ${{ secrets.REACT_APP_DUMMY_EMAIL }}
           REACT_APP_DUMMY_EMAIL_PASSWORD: ${{ secrets.REACT_APP_DUMMY_EMAIL_PASSWORD }}
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-      - run: npm run build --if-present
+        run: npm run build --if-present
 
