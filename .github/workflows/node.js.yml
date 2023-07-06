@@ -29,7 +29,9 @@ jobs:
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
       - run: npm ci --legacy-peer-deps
-      - env:
+      - name: npm build
+        env:
+          CI: false npm run build
           REACT_APP_DOMAIN: ${{ secrets.REACT_APP_DOMAIN }}
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
           REACT_APP_AUTH0_AUDIENCE: ${{ secrets.REACT_APP_AUTH0_AUDIENCE }}
